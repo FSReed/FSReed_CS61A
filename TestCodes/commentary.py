@@ -1,4 +1,6 @@
-"""The Video can be viewed on https://youtu.be/QLBpKsmGyYo"""
+"""The Video can be viewed on https://youtu.be/QLBpKsmGyYo
+   And these are the examples of self_reference functions
+"""
 
 
 def say_scores(score0, score1):
@@ -36,6 +38,7 @@ def announce_lead_changes(last_leader=None):
 
 
 """ 
+NOTE:
     In my opinion, this "announce_lead_changes function" provides a way to UPDATE the last_leader variable
     in the "say function" it creates
 """
