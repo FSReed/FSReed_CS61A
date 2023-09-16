@@ -48,3 +48,36 @@ def reverse_string(s):
 
 
 # Tested on 2023-09-13
+
+
+def dictionary_test():
+    # Dictionaries are unordered collections of key-values.
+    # Two keys cannot be equal.
+    # Keys cannot be lists or dictionaries.
+    dic = {"I": 1, "V": 5, "X": 10}
+    print(dic["X"])
+    keys = dic.keys()
+    values = dic.values()
+    items = dic.items()
+    print(keys, "\n", values, "\n", items)
+    print("X" in dic)
+    square_dic = {x: x * x for x in range(1, 10)}
+    print(square_dic)
+    list_dic = {1: [2, 3]}
+    print(list_dic)
+    error_dic = {[1]: 3}  # List cannot be keys
+    print(error_dic)
+
+
+# Tested on 2023-09-16
+
+#
+#
+#
+#
+#
+
+# Testcode area down here:
+# ------------My test code:----------------------
+dictionary_test()
+# -------------------------------------------------
