@@ -153,26 +153,41 @@ def shifty_shifts(start, goal, limit):
 
 
 def pawssible_patches(start, goal, limit):
-    """A diff function that computes the edit distance from START to GOAL."""
+    """A diff function that computes the edit distance from START to GOAL.
 
-    if len(start)==0:# Fill in the condition
+    NOTE:
+    This function seems to be complicated, but if we stuck to the mind of using recursion, it would be clear to think.
+    "Stuck to the mind of using recursion" means we are operating objects with similar properties every single turn.
+    Then we may find it hard to choose which way to use when doing recursion loops.
+    So, why not just operate the first letter every turn? Let's try.
+
+    First:  3 different diffs have been given. So we may think what these numbers should do.In fact, they are the manipulation
+    of the first letter of the "start" word.
+    Second: According to different operations, we return different recursion expressions.
+    Third:  As they are different ways to start with the whole process of the function, we choose the minimum one.
+    """
+
+    if len(start) == 0 or len(goal) == 0:  # Fill in the condition
         # BEGIN
         "*** YOUR CODE HERE ***"
-        return len(goal)
+        return len(start) + len(goal)
         # END
 
-    elif len(goal)==0 : # Feel free to remove or add additional cases
+    elif limit < 0:  # Feel free to remove or add additional cases
         # BEGIN
         "*** YOUR CODE HERE ***"
-        return len(start)
+        return 0
         # END
+    elif start[0] == goal[0]:
+        return pawssible_patches(start[1:], goal[1:], limit)
     else:
-        add_diff = ...  # Fill in these lines
-        remove_diff = ...
-        substitute_diff = ...
+        add_diff = 1 + pawssible_patches(start, goal[1:], limit - 1)
+        remove_diff = 1 + pawssible_patches(start[1:], goal, limit - 1)
+        substitute_diff = 1 + pawssible_patches(start[1:], goal[1:], limit - 1)
         # BEGIN
         "*** YOUR CODE HERE ***"
-        
+        return min(add_diff, remove_diff, substitute_diff)
+
         # END
 
 
