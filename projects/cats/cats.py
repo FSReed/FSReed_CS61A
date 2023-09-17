@@ -3,6 +3,7 @@
 from utils import lower, split, remove_punctuation, lines_from_file
 from ucb import main, interact, trace
 from datetime import datetime
+import math
 
 
 ###########
@@ -110,6 +111,20 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    if user_word in valid_words:
+        return user_word
+    else:
+        result = user_word
+        min_diff = math.inf
+        for test_word in valid_words:
+            tmp_diff = diff_function(user_word, test_word, limit)
+            if tmp_diff < min_diff:
+                result = test_word
+                min_diff = tmp_diff
+        if min_diff > limit:
+            result = user_word
+        return result
+
     # END PROBLEM 5
 
 
@@ -118,31 +133,46 @@ def shifty_shifts(start, goal, limit):
     in START need to be substituted to create GOAL, then adds the difference in
     their lengths.
     """
+
     # BEGIN PROBLEM 6
-    assert False, "Remove this line"
+    def memory(start, goal, limit, count):
+        if count > limit:
+            return limit + 1
+        elif len(start) == 0:
+            return len(goal)
+        elif len(goal) == 0:
+            return len(start)
+        else:
+            if start[0] == goal[0]:
+                return memory(start[1:], goal[1:], limit, count)
+            else:
+                return memory(start[1:], goal[1:], limit, count + 1) + 1
+
+    return memory(start, goal, limit, 0)
     # END PROBLEM 6
 
 
 def pawssible_patches(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
-    assert False, "Remove this line"
 
-    if ______________:  # Fill in the condition
+    if len(start)==0:# Fill in the condition
         # BEGIN
         "*** YOUR CODE HERE ***"
+        return len(goal)
         # END
 
-    elif ___________:  # Feel free to remove or add additional cases
+    elif len(goal)==0 : # Feel free to remove or add additional cases
         # BEGIN
         "*** YOUR CODE HERE ***"
+        return len(start)
         # END
-
     else:
         add_diff = ...  # Fill in these lines
         remove_diff = ...
         substitute_diff = ...
         # BEGIN
         "*** YOUR CODE HERE ***"
+        
         # END
 
 
