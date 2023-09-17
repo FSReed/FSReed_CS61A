@@ -205,6 +205,18 @@ def report_progress(typed, prompt, user_id, send):
     """Send a report of your id and progress so far to the multiplayer server."""
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+
+    correct, position = 0, 0
+    while position < len(typed):
+        if typed[position] == prompt[position]:
+            correct += 1
+        else:
+            break
+        position += 1
+    result = correct / len(prompt)
+    current_score = {"id": user_id, "progress": result}
+    send(current_score)
+    return result
     # END PROBLEM 8
 
 
@@ -231,6 +243,13 @@ def time_per_word(times_per_player, words):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    for player in range(len(times_per_player)):
+        times_per_player[player] = [
+            times_per_player[player][i + 1] - times_per_player[player][i]
+            for i in range(len(times_per_player[player]) - 1)
+        ]
+    return game(words, times_per_player)
+
     # END PROBLEM 9
 
 
@@ -246,6 +265,18 @@ def fastest_words(game):
     word_indices = range(len(all_words(game)))  # contains an *index* for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+    result_list = [[] for _ in player_indices]
+    for word_index in word_indices:
+        fastest_player = -1
+        shortest_time = math.inf
+        for player in player_indices:
+            time_used = time(game, player, word_index)
+            if time_used < shortest_time:
+                fastest_player = player
+                shortest_time = time_used
+        word = word_at(game, word_index)
+        result_list[fastest_player].append(word)
+    return result_list
     # END PROBLEM 10
 
 
@@ -290,7 +321,7 @@ def game_string(game):
     return "game(%s, %s)" % (game[0], game[1])
 
 
-enable_multiplayer = False  # Change to True when you're ready to race.
+enable_multiplayer = True  # Change to True when you're ready to race.
 
 ##########################
 # Command Line Interface #
