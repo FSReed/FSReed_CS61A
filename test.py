@@ -70,7 +70,24 @@ def dictionary_test():
 
 
 # Tested on 2023-09-16
+def sequence_aggregation():
+    # See the documentation of some built-in functions!
+    print(sum([2, 3, 4]))
+    print(sum([2, 3, 4], 5))
+    print(sum([[2, 3], [4]], []))
+    # NOTE:print(sum([[2, 3], [4]]))  will cause Error!
+    #
+    try_max = max(range(10), key=lambda x: 12 - (x - 4) * (x - 1))
+    print(try_max)
+    #
+    try_all = all(x < 5 for x in range(5))
+    print(try_all)
+    try_all = all(x > 0 for x in range(5))
+    print(try_all)
+    return
 
+
+# Tested on 2023-09-18
 #
 #
 #
@@ -79,5 +96,5 @@ def dictionary_test():
 
 # Testcode area down here:
 # ------------My test code:----------------------
-dictionary_test()
+sequence_aggregation()
 # -------------------------------------------------
