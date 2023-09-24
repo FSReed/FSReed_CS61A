@@ -88,6 +88,19 @@ def sequence_aggregation():
 
 
 # Tested on 2023-09-18
+
+
+def default_mutable_argument():
+    def length(s=[]):
+        s.append(3)
+        return len(s)
+
+    length()
+    length()
+    print(length())
+
+
+# Tested on 2023-09-24
 #
 #
 #
@@ -96,5 +109,5 @@ def sequence_aggregation():
 
 # Testcode area down here:
 # ------------My test code:----------------------
-sequence_aggregation()
+default_mutable_argument()
 # -------------------------------------------------
