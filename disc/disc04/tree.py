@@ -88,21 +88,24 @@ Each binary number is represented as a string. A binary number n
 exists in t if there is some path from the root to leaf of t whose values are equal to
 n.
 """
+
+
 def prune_binary(t, nums):
-    if _________________________:
-        if _____________:
+    if is_leaf(t):
+        if label(t) in nums:
             return t
         return None
     else:
-        next_valid_nums = __________________________
+        next_valid_nums = [number[1:] for number in nums if number[0] == label(t)]
         new_branches = []
-        for ____________________:
-            pruned_branch = prune_binary(_____, next_valid_nums)
-        if pruned_branch is not None:
-            new_branches = new_branches + [__________]
+        for branch in branches(t):
+            pruned_branch = prune_binary(branch, next_valid_nums)
+            if pruned_branch is not None:
+                new_branches = new_branches + [pruned_branch]
         if not new_branches:
             return None
-        return __
+        return tree(label(t), new_branches)
+
 
 def tree(label, branches=[]):
     for branch in branches:
@@ -157,6 +160,15 @@ def count_leaves(tree):
         return sum([count_leaves(branch) for branch in branches(tree)])
 
 
+def make_binary_tree(n, root):
+    if n == 1:
+        return tree(str(root))
+    else:
+        left = make_binary_tree(n - 1, 0)
+        right = make_binary_tree(n - 1, 1)
+        return tree(str(root), [left, right])
+
+
 def print_tree(t, indent=0):
     """Print a representation of this tree in which each label is
     indented by two spaces times its depth from the root.
@@ -180,3 +192,12 @@ def print_tree(t, indent=0):
     print("  " * indent + str(label(t)))
     for b in branches(t):
         print_tree(b, indent + 1)
+
+
+test_num = ["10111", "11010", "10100"]
+t = make_binary_tree(5, 1)
+print("tree is:")
+print_tree(t)
+print("result is:")
+result = prune_binary(t, test_num)
+print_tree(result)
