@@ -100,7 +100,71 @@ def default_mutable_argument():
     print(length())
 
 
+def list_example():
+    """NOTE:
+    All complicated examples can be viewed here:
+    https://www.youtube.com/watch?v=tpfpNR3u4zk&list=PL6BsET-8jgYVDEchBIdQeqrUhlN2MZE6F&index=7
+    """
+
+    def reset():
+        s = [2, 3]
+        t = [5, 6]
+        return s, t
+
+    def eprint(s, t):
+        print(s, "\n", t, "\n")
+
+    #
+    print("First try:")
+    s, t = reset()
+    s.append(t)
+    t = 0
+    eprint(s, t)
+    s, t = reset()
+    s.append(t)
+    t[1] = 9
+    eprint(s, t)
+
+    #
+    print("Second try:")
+    s, t = reset()
+    s.extend(t)
+    t[1] = 0
+    eprint(s, t)
+
+    # b is a slice of a. And we can see the change in a doesn't affect b.
+    # But the change in t will affect both a and b.
+    print("Third try:")
+    s, t = reset()
+    a = s + [t]
+    b = a[1:]
+    a[1] = 9
+    b[1][1] = 0
+    eprint(a, b)
+    t[0] = 99
+    eprint(a, b)
+
+    #
+    print(" Fourth try:")
+    s, t = reset()
+    t = list(s)
+    s[1] = 4
+    eprint(s, t)
+    #
+    print("Fifth try:")
+    s, t = reset()
+    s[0:0] = t
+    s[3:] = t
+    t[1] = 9
+    eprint(s, t)
+    s[0:0] = [t]
+    t[1] = 8
+    eprint(s, t)
+
+
 # Tested on 2023-09-24
+
+
 #
 #
 #
@@ -108,6 +172,6 @@ def default_mutable_argument():
 #
 
 # Testcode area down here:
-# ------------My test code:----------------------
-default_mutable_argument()
+# ------------Gonna test on:----------------------
+list_example()
 # -------------------------------------------------
