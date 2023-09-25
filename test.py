@@ -163,9 +163,27 @@ def list_example():
 
 
 # Tested on 2023-09-24
+def nonlocal_test():
+    def make_accout(balance):
+        def withdraw(amount):
+            nonlocal balance
+            if amount > balance:
+                return "Insufficient money."
+            else:
+                balance = balance - amount
+                return balance
+
+        return withdraw
+
+    withdraw = make_accout(100)
+    print(withdraw(10))
+    print(withdraw(10))
+    print(withdraw(60))
+    print(withdraw(40))
+    print(withdraw(10))
 
 
-#
+# Tested on 2023-09-25
 #
 #
 #
@@ -173,5 +191,5 @@ def list_example():
 
 # Testcode area down here:
 # ------------Gonna test on:----------------------
-list_example()
+nonlocal_test()
 # -------------------------------------------------
