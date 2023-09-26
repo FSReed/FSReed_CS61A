@@ -184,6 +184,32 @@ def nonlocal_test():
 
 
 # Tested on 2023-09-25
+
+
+def referential_transparency():
+    def f(x):
+        x = 4
+
+        def g(y):
+            def h(z):
+                nonlocal x
+                x = x + 1
+                return x + y + z
+
+            return h
+
+        return g
+
+    a = f(15)
+    b = a(2)
+    b3 = b(3)
+    b4 = b(4)
+    print("b(3) =", b3, ", but b(4) =", b4)
+    total = b3 + b4
+    print("total = ", total)
+
+
+# Tested on 2023-09-26
 #
 #
 #
@@ -191,5 +217,5 @@ def nonlocal_test():
 
 # Testcode area down here:
 # ------------Gonna test on:----------------------
-nonlocal_test()
+referential_transparency()
 # -------------------------------------------------
