@@ -9,4 +9,5 @@ Typed at 2023-09-13
 # Here are some problems that I failed to solve on my own:  
 1. The pawssible_patches() function in Project 02.  
 2. The riffle() function in lab05.  
-3.The merge() function in disc06.  
+3. The merge() function in disc06.  
+(Failed to finish merge function in disc06, but the reason is that I wrote the word "value" as word "vaule". That's ridiculous.)  
