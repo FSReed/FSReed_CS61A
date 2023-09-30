@@ -11,3 +11,5 @@ Typed at 2023-09-13
 2. The riffle() function in lab05.  
 3. The merge() function in disc06.  
 (Failed to finish merge function in disc06, but the reason is that I wrote the word "value" as word "vaule". That's ridiculous.)  
+4. The permutations() function in hw04.
+(Forget that assigning a new name to an existing list doesn't make a new list. Thus any operation of the new name causes the change to the previous list.)  
