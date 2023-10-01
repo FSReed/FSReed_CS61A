@@ -210,6 +210,77 @@ def referential_transparency():
 
 
 # Tested on 2023-09-26
+
+
+def first_class_example():
+    """
+    The Idea of OOP is here:
+    https://www.youtube.com/watch?v=tULG0_WfbgU&list=PL6BsET-8jgYXpV7vl4Pvo25wh0FKRlecx&index=5
+    Such as when to use inheritence and when to use composition.
+    """
+
+    class Student:
+        all_ages = 23
+
+        def __init__(self, my_name):
+            self.name = my_name
+            self.score = 0
+
+        def change_score(self, add_score):
+            self.score += add_score
+
+    me = Student("FSReed")
+    print(me.name)
+    Student.all_ages = 25
+    print(me.all_ages)
+    me.change_score(30)
+    print(me.score)
+
+    # Next try Inheritance:
+    # Older Student is a student.
+    class Older_Student(Student):
+        all_ages = 30
+        bonus_score = 10
+
+        def change_score(self, add_score):
+            return Student.change_score(self, add_score + self.bonus_score)
+
+    other = Older_Student("Elder")
+    other.change_score(30)
+    print(other.score)
+
+    # Try composition:
+    # A school has mutiple students.
+    class School:
+        def __init__(self):
+            self.students = []
+
+        def add_student(self, name, score, kind=Student):
+            student = kind(name)
+            student.change_score(score)
+            self.students.append(student)
+            return student
+
+        def sum_score(self):
+            sum = 0
+            for student in self.students:
+                sum = sum + student.score
+            return sum
+
+    my_school = School()
+    print(my_school.students)
+    my_school.add_student("FSReed", 100)
+    my_school.add_student("Dearc", 97)
+    for student in my_school.students:
+        print(student.name)
+    print(my_school.sum_score())
+
+    # Multiple inheritence:
+    # Takes more than one class argument when creating an inheritence.
+    # Which can be really dangerous!
+
+
+# Tested on 2023-10-01
 #
 #
 #
@@ -217,5 +288,5 @@ def referential_transparency():
 
 # Testcode area down here:
 # ------------Gonna test on:----------------------
-referential_transparency()
+first_class_example()
 # -------------------------------------------------
