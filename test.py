@@ -281,6 +281,66 @@ def first_class_example():
 
 
 # Tested on 2023-10-01
+
+
+def Repr_string():
+    class Bear:
+        def __init__(self):
+            self.__str__ = lambda: "Oski"
+            self.__repr__ = lambda: "This bear"
+
+        def __str__(self):
+            return "A Bear!"
+
+        def __repr__(self):
+            return "Bear()"
+
+    oski = Bear()
+    print(oski)
+    print(str(oski))
+    print(repr(oski))
+    print(oski.__str__())
+    print(oski.__repr__())
+
+
+# Tested on 2023-10-06
+def Special_methods_in_Python():
+    from math import gcd
+
+    class Ratio:
+        def __init__(self, n, d):
+            self.numer = n
+            self.denom = d
+
+        def __add__(self, other):
+            if isinstance(other, int):
+                n = self.numer + other * self.denom
+                d = self.denom
+            elif isinstance(other, Ratio):
+                n = self.numer * other.denom + self.denom + other.numer
+                d = self.denom * other.denom
+            elif isinstance(other, float):
+                return float(self) + other
+            g = gcd(n, d)
+            return Ratio(n // g, d // g)
+
+        __radd__ = __add__
+
+        def __float__(self):
+            return self.numer / self.denom
+
+        def __repr__(self):
+            return "Ratio({0}, {1})".format(self.numer, self.denom)
+
+        def __str__(self):
+            return "{0} / {1}".format(self.numer, self.denom)
+
+    print(1 + Ratio(1, 3))
+    print(Ratio(1, 2) + Ratio(2, 5))
+    print(Ratio(1, 4) + 0.37)
+
+
+#
 #
 #
 #
@@ -288,5 +348,5 @@ def first_class_example():
 
 # Testcode area down here:
 # ------------Gonna test on:----------------------
-first_class_example()
+Special_methods_in_Python()
 # -------------------------------------------------
