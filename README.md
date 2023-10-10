@@ -18,3 +18,4 @@ Typed at 2023-09-13
 
 # Notes during the project:
 1. In Ants Project, when implementing the FireAnt class inherited from Ant, the reduce_armor method is asked to inherite from Ant class but not Insect class. And when calling reduce_armor method on every bee in current_place.bees, we should use a copy of current_place.bees, or we may skip some bees in the current_place!  
+2. In Ants Project, when initializing the HungryAnt class, I assign self.armor = armor, and self.digesting = 0, but this breaks the abstraction barrier! Digesting is an instance attribute added to HungryAnt class, but armor should be initialized in Ant class!  
