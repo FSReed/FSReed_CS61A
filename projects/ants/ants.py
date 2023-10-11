@@ -451,6 +451,8 @@ class Bee(Insect):
     damage = 1
     # OVERRIDE CLASS ATTRIBUTES HERE
     is_watersafe = True
+    has_been_scared = False
+    is_scared = False
 
     def sting(self, ant):
         """Attack an ANT, reducing its armor by 1."""
@@ -469,6 +471,8 @@ class Bee(Insect):
         # END Problem Optional
 
     def action(self, gamestate):
+        print("Debug", "Now the action of this bee is:", self.action.__repr__)
+        print("Debug", "The bee is Scared?:", self.is_scared)
         """A Bee's action stings the Ant that blocks its exit if it is blocked,
         or moves to the exit of its current place otherwise.
 
@@ -478,10 +482,16 @@ class Bee(Insect):
         # Extra credit: Special handling for bee direction
         # BEGIN EC
         "*** YOUR CODE HERE ***"
+        if self.is_scared:
+            destination = self.place.entrance
         # END EC
         if self.blocked():
             self.sting(self.place.ant)
-        elif self.armor > 0 and destination is not None:
+        elif (
+            self.armor > 0
+            and destination is not None
+            and destination is not gamestate.beehive
+        ):
             self.move_to(destination)
 
     def add_to(self, place):
@@ -613,6 +623,22 @@ def make_slow(action, bee):
     """
     # BEGIN Problem Optional 4
     "*** YOUR CODE HERE ***"
+
+    def new_action(gamestate):
+        new_action.call_time += 1
+        print("Debug", "Call Time:", new_action.call_time, new_action.__repr__)
+        if new_action.call_time >= new_action.limit:
+            bee.action = action
+            print("Debug", "Changed!")
+            print("Debug", "Now the bee.action is:", bee.action.__repr__)
+        if gamestate.time % 2 == 0:
+            print("Debug", "Yes!")
+            print("Debug", "action is:", action.__repr__)
+            action(gamestate)
+
+    new_action.call_time = 0
+    new_action.limit = float("inf")
+    return new_action
     # END Problem Optional 4
 
 
@@ -623,6 +649,23 @@ def make_scare(action, bee):
     """
     # BEGIN Problem Optional 4
     "*** YOUR CODE HERE ***"
+
+    def new_action(gamestate):
+        new_action.call_time += 1
+        if new_action.call_time > new_action.limit or bee.has_been_scared:
+            bee.has_been_scared = True
+            bee.is_scared = False
+            # bee.action = action
+            # The above line is the source of the problem of question 4!
+            action(gamestate)
+        else:
+            bee.is_scared = True
+            action(gamestate)
+
+    new_action.call_time = 0
+    new_action.limit = float("inf")
+    return new_action
+
     # END Problem Optional 4
 
 
@@ -630,6 +673,10 @@ def apply_status(status, bee, length):
     """Apply a status to a BEE that lasts for LENGTH turns."""
     # BEGIN Problem Optional 4
     "*** YOUR CODE HERE ***"
+    new_action = status(bee.action, bee)
+    bee.action = new_action
+    new_action.limit = length
+
     # END Problem Optional 4
 
 
@@ -639,12 +686,13 @@ class SlowThrower(ThrowerAnt):
     name = "Slow"
     food_cost = 4
     # BEGIN Problem Optional 4
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem Optional 4
 
     def throw_at(self, target):
         if target:
             apply_status(make_slow, target, 3)
+            print("Debug", target.action.__repr__)
 
 
 class ScaryThrower(ThrowerAnt):
@@ -653,12 +701,14 @@ class ScaryThrower(ThrowerAnt):
     name = "Scary"
     food_cost = 6
     # BEGIN Problem Optional 4
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem Optional 4
 
     def throw_at(self, target):
         # BEGIN Problem Optional 4
         "*** YOUR CODE HERE ***"
+        apply_status(make_scare, target, 2)
+
         # END Problem Optional 4
 
 
