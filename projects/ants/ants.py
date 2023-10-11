@@ -718,8 +718,9 @@ class LaserAnt(ThrowerAnt):
     name = "Laser"
     food_cost = 10
     # OVERRIDE CLASS ATTRIBUTES HERE
+    damage = 2
     # BEGIN Problem Optional 5
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem Optional 5
 
     def __init__(self, armor=1):
@@ -728,21 +729,45 @@ class LaserAnt(ThrowerAnt):
 
     def insects_in_front(self, beehive):
         # BEGIN Problem Optional 5
-        return {}
+        starting_place = self.place
+        distance = 0
+        collecting_dictionary = {}
+        while starting_place is not None and starting_place is not beehive:
+            bees_here = starting_place.bees[:]
+            ant_here = starting_place.ant
+            for bee in bees_here:
+                collecting_dictionary[bee] = distance
+            if ant_here and ant_here is not self:
+                collecting_dictionary[ant_here] = distance
+            starting_place = starting_place.entrance
+            distance += 1
+
+        return collecting_dictionary
         # END Problem Optional 5
 
     def calculate_damage(self, distance):
         # BEGIN Problem Optional 5
-        return 0
+        result = self.damage - distance * 0.2
+        if result < 0:
+            return 0
+        else:
+            return result
         # END Problem Optional 5
 
     def action(self, gamestate):
-        insects_and_distances = self.insects_in_front(gamestate.beehive)
-        for insect, distance in insects_and_distances.items():
-            damage = self.calculate_damage(distance)
-            insect.reduce_armor(damage)
-            if damage:
-                self.insects_shot += 1
+        if self.have_battery():
+            insects_and_distances = self.insects_in_front(gamestate.beehive)
+            for insect, distance in insects_and_distances.items():
+                damage = self.calculate_damage(distance)
+                insect.reduce_armor(damage)
+                if damage:
+                    self.insects_shot += 1
+                    self.damage -= 0.05
+                    if self.damage < 0:
+                        self.damage = 0
+
+    def have_battery(self):
+        return self.damage > 0
 
 
 ##################
