@@ -116,16 +116,16 @@ def make_generators_generator(g):
     """
 
     def gen(i):
-        for ___________ in ___________:
-            if _________________________:
-                _________________________
-            _______________________
-            _______________________
+        for time in range(i):
+            if time == 0:
+                generator = g()
+            yield next(generator)
+            # _____________
 
-    __________________________
-    for _________ in __________________:
-        ______________________________
-        ______________________________
+    # __________
+    for value in range(1, len(list(g())) + 1):
+        yield gen(value)
+        # ________________
 
 
 class Button:
@@ -166,26 +166,26 @@ class Keyboard:
     """
 
     def __init__(self, *args):
-        ________________
-        for _________ in ________________:
-            ________________
+        self.buttons = {}
+        for button in args:
+            self.buttons[button.pos] = button
 
     def press(self, info):
         """Takes in a position of the button pressed, and
         returns that button's output"""
-        if ____________________:
-            ________________
-            ________________
-            ________________
-        ________________
+        if info in self.buttons:
+            self.buttons[info].times_pressed += 1
+            # ________________
+            return self.buttons[info].key
+        return ""
 
     def typing(self, typing_input):
         """Takes in a list of positions of buttons pressed, and
         returns the total output"""
-        ________________
-        for ________ in ____________________:
-            ________________
-        ________________
+        init_string = ""
+        for position in typing_input:
+            init_string += self.press(position)
+        return init_string
 
 
 def make_advanced_counter_maker():
@@ -217,19 +217,29 @@ def make_advanced_counter_maker():
     >>> tom_counter('global-count')
     1
     """
-    ________________
+    global_count = 0
 
-    def ____________(__________):
-        ________________
+    def make_counter():
+        self_counter = 0
 
-        def ____________(__________):
-            ________________
+        def counter(parameter):
+            nonlocal global_count, self_counter
             "*** YOUR CODE HERE ***"
+            if parameter == "count":
+                self_counter += 1
+                return self_counter
+            elif parameter == "reset":
+                self_counter = 0
+            elif parameter == "global-count":
+                global_count += 1
+                return global_count
+            elif parameter == "global-reset":
+                global_count = 0
             # as many lines as you want
 
-        ________________
+        return counter
 
-    ________________
+    return make_counter
 
 
 def trade(first, second):
@@ -261,9 +271,9 @@ def trade(first, second):
     """
     m, n = 1, 1
 
-    equal_prefix = lambda: ______________________
-    while _______________________________:
-        if __________________:
+    equal_prefix = lambda: m <= len(first) and n <= len(second)
+    while sum(first[:m]) != sum(second[:n]) and m <= len(first) and n <= len(second):
+        if sum(first[:m]) < sum(second[:n]):
             m += 1
         else:
             n += 1
@@ -301,11 +311,11 @@ def shuffle(cards):
     ['A♡', 'A♢', 'A♤', 'A♧', '2♡', '2♢', '2♤', '2♧', '3♡', '3♢', '3♤', '3♧']
     """
     assert len(cards) % 2 == 0, "len(cards) must be even"
-    half = _______________
+    half = cards[len(cards) // 2 :]
     shuffled = []
-    for i in _____________:
-        _________________
-        _________________
+    for i in range(len(cards) // 2):
+        shuffled.append(cards[i])
+        shuffled.append(half[i])
     return shuffled
 
 
@@ -324,14 +334,14 @@ def insert(link, value, index):
     >>> insert(link, 4, 5)
     IndexError
     """
-    if ____________________:
-        ____________________
-        ____________________
-        ____________________
-    elif ____________________:
-        ____________________
+    if index == 0 and link is not Link.empty:
+        new_rest = Link(link.first, link.rest)
+        link.first = value
+        link.rest = new_rest
+    elif link is Link.empty:
+        raise IndexError
     else:
-        ____________________
+        insert(link.rest, value, index - 1)
 
 
 def deep_len(lnk):
@@ -348,12 +358,12 @@ def deep_len(lnk):
     >>> deep_len(levels)
     5
     """
-    if ______________:
+    if lnk is Link.empty:
         return 0
-    elif ______________:
+    elif not isinstance(lnk, Link):
         return 1
     else:
-        return _________________________
+        return deep_len(lnk.first) + deep_len(lnk.rest)
 
 
 def make_to_string(front, mid, back, empty_repr):
@@ -373,10 +383,11 @@ def make_to_string(front, mid, back, empty_repr):
     """
 
     def printer(lnk):
-        if ______________:
-            return _________________________
+        if lnk is Link.empty:
+            return empty_repr
         else:
-            return _________________________
+            repr_string = front + str(lnk.first) + mid + printer(lnk.rest) + back
+            return repr_string
 
     return printer
 
@@ -398,11 +409,11 @@ def prune_small(t, n):
     >>> t3
     Tree(6, [Tree(1), Tree(3, [Tree(1), Tree(2)])])
     """
-    while ___________________________:
-        largest = max(_______________, key=____________________)
-        _________________________
-    for __ in _____________:
-        ___________________
+    while len(t.branches) > n:
+        largest = max(t.branches, key=lambda obj: obj.label)
+        t.branches.remove(largest)
+    for branch in t.branches:
+        prune_small(branch, n)
 
 
 class Link:
