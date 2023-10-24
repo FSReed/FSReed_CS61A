@@ -38,20 +38,7 @@ def scheme_eval(expr, env, _=None):  # Optional third argument is ignored
         # BEGIN PROBLEM 4
         "*** YOUR CODE HERE ***"
         procedure = scheme_eval(first, env)
-        prev_arg_pair = []
-        operand = rest
-        while operand is not nil:
-            if self_evaluating(operand.first):
-                new_argument = operand.first
-            else:
-                new_argument = scheme_eval(operand.first, env)
-            prev_arg_pair.append(new_argument)
-            operand = operand.rest
-        prev_arg_pair.reverse()
-        scheme_arg = nil
-        for element in prev_arg_pair:
-            scheme_arg = Pair(element, scheme_arg)
-        # print("Debug:", scheme_arg)
+        scheme_arg = rest.map(lambda x: scheme_eval(x, env))
         return scheme_apply(procedure, scheme_arg, env)
         # END PROBLEM 4
 
