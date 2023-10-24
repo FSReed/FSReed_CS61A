@@ -51,7 +51,7 @@ def scheme_eval(expr, env, _=None):  # Optional third argument is ignored
         scheme_arg = nil
         for element in prev_arg_pair:
             scheme_arg = Pair(element, scheme_arg)
-        print("Debug:", scheme_arg)
+        # print("Debug:", scheme_arg)
         return scheme_apply(procedure, scheme_arg, env)
         # END PROBLEM 4
 
@@ -287,6 +287,9 @@ def do_define_form(expressions, env):
         )  # Checks that expressions is a list of length exactly 2
         # BEGIN PROBLEM 5
         "*** YOUR CODE HERE ***"
+        value = scheme_eval(expressions.rest.first, env)
+        Frame.define(env, target, value)
+        return target
         # END PROBLEM 5
     elif isinstance(target, Pair) and scheme_symbolp(target.first):
         # BEGIN PROBLEM 9
@@ -307,6 +310,7 @@ def do_quote_form(expressions, env):
     validate_form(expressions, 1, 1)
     # BEGIN PROBLEM 6
     "*** YOUR CODE HERE ***"
+    return expressions.first
     # END PROBLEM 6
 
 
