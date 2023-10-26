@@ -13,7 +13,12 @@
 ;; Returns a list of two-element lists
 (define (enumerate s)
   ; BEGIN PROBLEM 15
-  'replace-this-line
+  (define (enumerate-helper s order) 
+    (if (null? s) nil 
+      (cons (cons order (cons (car s) nil)) (enumerate-helper (cdr s) (+ order 1)))
+      )
+  )
+  (enumerate-helper s 0)
   )
   ; END PROBLEM 15
 
@@ -23,8 +28,17 @@
 ;; the merged lists.
 (define (merge comp list1 list2)
   ; BEGIN PROBLEM 16
-  'replace-this-line
+  (cond
+    ((null? list1) list2)
+    ((null? list2) list1)
+    (else
+      (if (comp (car list1) (car list2)) 
+        (cons (car list1) (merge comp (cdr list1) list2))
+        (cons (car list2) (merge comp list1 (cdr list2)))
+      )
+    )
   )
+)
   ; END PROBLEM 16
 
 
@@ -37,10 +51,29 @@
 
 (define (nondecreaselist s)
     ; BEGIN PROBLEM 17
-    'replace-this-line
+  (if (null? s) nil
+    (begin 
+      (define (helper prev_sequence sequece_now prev_value)
+        (if (or (null? sequece_now) (< (car sequece_now) prev_value))
+          (cons prev_sequence sequece_now)
+          (helper (append prev_sequence (cons (car sequece_now) nil)) (cdr sequece_now) (car sequece_now))
+        )
+      )
+      (define result_pair (helper nil s (car s)))
+      ; (print result_pair)
+      ; (print (cdr result_pair))
+      (define first_sequence (car result_pair))
+      (define rest_sequence (cdr result_pair))
+      ; (print first_sequence)
+      ; (print rest_sequence)
+      (if (null? rest_sequence) 
+        (cons first_sequence nil)
+        (append (cons first_sequence nil) (nondecreaselist rest_sequence))
+      ) 
     )
+  )
+)
     ; END PROBLEM 17
-
 ;; Problem EC
 ;; Returns a function that checks if an expression is the special form FORM
 (define (check-special form)
@@ -84,4 +117,3 @@
          'replace-this-line
          ; END PROBLEM EC
          )))
-
