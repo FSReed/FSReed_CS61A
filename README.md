@@ -33,3 +33,6 @@ What would python print?
 2. Problem 04: I don't know how to use the map method provided in Pair class, all these lines you can see in main branch do work, but in Smart_Solutions branch(Yes it's so tricky for me and I think I need a new branch to save it), you can see all these lines can be simplified into just one line with map method of Pair class.  
   
 3. Problem 06: quote is like a notation, telling the interpreter to pack up the entire expression behind it. How to implement it? We can make a new pair, whose first is the original expression, and rest is nil. This pair is called QUOTE_ME, then read the quote expression will create a pair like: Pair('quote', QUOTE_ME). If we don't use this, the interpreter won't know where this quoted expression ends.  
+  
+4. The debug progress of Problem 17 is miserable! Having huge problem about how to organize all the non-decreasing lists into a big list.  
+When trying to add all sub-sequences to the existing sequence, I should use append method in scheme. But at first, I misunderstood what is (car (nondecreasing rest_sequence)). It's just ONE sub-sequence not all of them. It causes this miserable debugging. >:|  
