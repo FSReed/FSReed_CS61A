@@ -6,7 +6,7 @@ This is much more likely to be a repo to record my progress, so all these texts 
 If someday later I can see these words again, hope I have been doing what I want to do at that time.  
 That's all! At least for now!
 
-- Typed at 2023-09-13
+- Typed on 2023-09-13
 
 ## Course website
 
