@@ -12,6 +12,13 @@ That's all! At least for now!
 
 <https://inst.eecs.berkeley.edu/~cs61a/fa20/>
 
+## How to use shell command to start the workflow with Visual Studio Code
+
+1. This approach is just for VSCode users. Make sure both `your_cs61a_path/bin` and `VSCode/bin` have been added to the `PATH`. Make sure the `code` file in `VSCode/bin` is okay.
+2. Open the shell, type `source cs61a`, then this repo should be opened in VSCode and the directory in the CURRENT shell should be `your_cs61a_path`.
+
+- Typed on 2023-11-08. Spent all day learning shell script.
+
 ## Here are some problems that I failed to solve on my own
 
 1. The pawssible_patches() function in Project 02.  
